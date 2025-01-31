@@ -16,7 +16,8 @@
         "baseUrl": ".",
         "paths": {
             "@/*": ["resources/js/*"]
-        }
+        },
+        "typeRoots": ["./node_modules/@types", "./types"]
     },
     "include": [
         "resources/**/*",

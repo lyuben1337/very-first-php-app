@@ -5,6 +5,7 @@ namespace App\Repositories\Abstractions;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * @template TModel of Model
@@ -34,12 +35,17 @@ abstract class AbstractRepository implements RepositoryInterface
         return $this->model->all();
     }
 
+    public function paginate(int $perPage = 10): LengthAwarePaginator
+    {
+        return $this->model->latest()->paginate($perPage);
+    }
+
     /**
      * @return TModel|null
      */
     public function find(int $id): ?Model
     {
-        return $this->model->find($id);
+        return $this->model->findOrFail($id);
     }
 
     /**
@@ -60,10 +66,6 @@ abstract class AbstractRepository implements RepositoryInterface
     public function update(int $id, array $data): Model
     {
         $model = $this->find($id);
-
-        if (! $model) {
-            throw new Exception('Model not found.');
-        }
 
         $model->update($data);
 

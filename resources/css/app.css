@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Pagination */
+
+ul.pagination {
+    @apply flex gap-2 mx-auto w-fit border p-4 rounded-lg shadow-md;
+}
+
+ul.pagination li a {
+    @apply px-3 py-2 rounded-md text-gray-700 font-medium transition bg-gray-100 hover:bg-gray-200 cursor-pointer select-none;
+}
+
+ul.pagination li.active a {
+    @apply bg-blue-500 text-white hover:bg-blue-600;
+}
+
+ul.pagination li.disabled a {
+    @apply bg-gray-300 text-gray-500 cursor-not-allowed;
+}
+
+/* Modal */
+.vm {
+    @apply rounded-md;
+}

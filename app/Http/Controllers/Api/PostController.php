@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostIndexRequest;
 use App\Http\Requests\PostRequest;
 use App\Services\PostService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class PostController extends Controller
 {
@@ -16,30 +18,40 @@ class PostController extends Controller
         $this->postService = $postService;
     }
 
-    public function index(): JsonResponse
+    public function index(PostIndexRequest $request): JsonResponse
     {
-        return response()->json($this->postService->getAllPosts());
+        $validated = $request->validated();
+
+        $perPage = $validated['per_page'] ?? 10;
+
+        $posts = $this->postService->getAllPostsPaginated($perPage);
+
+        return response()->json($posts);
     }
 
     public function store(PostRequest $request): JsonResponse
     {
-        return response()->json($this->postService->createPost($request->validated()), 201);
+        return response()->json($this->postService->createPost($request->validated()), Response::HTTP_CREATED);
     }
 
     public function show($id): JsonResponse
     {
-        return response()->json($this->postService->getPostById($id));
+        $post = $this->postService->getPostById($id);
+
+        return response()->json($post);
     }
 
     public function update(PostRequest $request, $id): JsonResponse
     {
-        return response()->json($this->postService->updatePost($id, $request->validated()));
+        $this->postService->updatePost($id, $request->validated());
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 
     public function destroy($id): JsonResponse
     {
         $this->postService->deletePost($id);
 
-        return response()->json(['message' => 'Deleted'], 204);
+        return response()->json(['message' => 'Deleted'], Response::HTTP_NO_CONTENT);
     }
 }

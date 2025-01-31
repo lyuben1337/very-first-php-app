@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Post;
 use App\Repositories\PostRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class PostService
 {
@@ -18,6 +19,11 @@ class PostService
     public function getAllPosts(): Collection
     {
         return $this->postRepository->all();
+    }
+
+    public function getAllPostsPaginated(int $perPage = 10): LengthAwarePaginator
+    {
+        return $this->postRepository->paginate($perPage);
     }
 
     public function getPostById($id): ?Post
