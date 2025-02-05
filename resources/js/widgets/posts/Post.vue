@@ -2,9 +2,15 @@
     <li class="border p-4 rounded-lg shadow-md">
         <h3 class="text-lg font-semibold">{{ post.title }}</h3>
         <p class="text-gray-600">{{ post.body }}</p>
-        <div class="mt-4 flex gap-2 justify-end">
-            <Button @click="$emit('edit', post)">Edit</Button>
-            <Button variant="danger" @click="handleDelete"> Delete </Button>
+        <div class="flex items-center justify-between gap-2 mt-4">
+            <div>
+                <p></p>
+                <p></p>
+            </div>
+            <div class="flex gap-2 w-fit">
+                <Button @click="$emit('edit', post)">Edit</Button>
+                <Button variant="danger" @click="handleDelete">Delete</Button>
+            </div>
         </div>
     </li>
 </template>
@@ -14,11 +20,13 @@ import { defineProps } from "vue";
 import { usePostStore } from "@/store/postStore";
 import Button from "@/components/Button.vue";
 import { useToast } from "vue-toastification";
+import { Post } from "@/models/Post";
 
 const props = defineProps<{
-    post: { id: number; title: string; body: string };
+    post: Post;
 }>();
-const emit = defineEmits(["edit"]);
+
+defineEmits(["edit"]);
 
 const postStore = usePostStore();
 const toast = useToast();
