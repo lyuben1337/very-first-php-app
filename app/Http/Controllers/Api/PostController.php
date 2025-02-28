@@ -34,13 +34,6 @@ class PostController extends Controller
         return response()->json($this->postService->createPost($request->validated()), Response::HTTP_CREATED);
     }
 
-    public function show($id): JsonResponse
-    {
-        $post = $this->postService->getPostById($id);
-
-        return response()->json($post);
-    }
-
     public function update(PostRequest $request, $id): JsonResponse
     {
         $this->postService->updatePost($id, $request->validated());

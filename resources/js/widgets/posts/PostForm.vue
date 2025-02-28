@@ -6,7 +6,7 @@
     />
     <textarea
         v-model="formData.body"
-        class="w-full p-2 border rounded mb-4"
+        class="w-full p-2 border rounded mb-4 resize-none overflow-y-auto h-[100px]"
         placeholder="Body"
     ></textarea>
 
